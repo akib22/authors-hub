@@ -27,25 +27,32 @@ function Authors() {
   }
 
   return (
-    <Row className="mt-3">
-      {data?.results.map((author) => {
-        const isFavoriteAuthor = !!favAuthors[author._id];
+    <Row className="mt-2">
+      {data?.results.length === 0 ? (
+        <h3 className="text-center">No available authors to show.</h3>
+      ) : (
+        <>
+          <h3 className="text-center">All authors</h3>
+          {data?.results.map((author) => {
+            const isFavoriteAuthor = !!favAuthors[author._id];
 
-        return (
-          <AuthorCard
-            key={author._id}
-            author={author}
-            isFavorite={isFavoriteAuthor}
-            handler={isFavoriteAuthor ? removeFromFavorite : addToFavorite}
+            return (
+              <AuthorCard
+                key={author._id}
+                author={author}
+                isFavorite={isFavoriteAuthor}
+                handler={isFavoriteAuthor ? removeFromFavorite : addToFavorite}
+              />
+            );
+          })}
+
+          <Pagination
+            totalPage={data.totalPages}
+            currentPage={page}
+            handler={setPage}
           />
-        );
-      })}
-
-      <Pagination
-        totalPage={data.totalPages}
-        currentPage={page}
-        handler={setPage}
-      />
+        </>
+      )}
     </Row>
   );
 }

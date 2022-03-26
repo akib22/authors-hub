@@ -6,7 +6,7 @@ function AuthorCard({ author, handler, isFavorite = false }) {
   };
 
   const variant = isFavorite ? 'danger' : 'primary';
-  const btnText = isFavorite ? 'Remove Favorite' : 'Add Favorite';
+  const btnText = isFavorite ? 'Remove from favorite' : 'Add to favorite';
 
   return (
     <Col className="mb-4" xs={12} sm={6} md={6} lg={4} xl={3}>
