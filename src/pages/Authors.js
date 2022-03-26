@@ -4,6 +4,7 @@ import { Row } from 'react-bootstrap';
 import AuthorCard from '../components/AuthorCard';
 import Pagination from '../components/Pagination';
 import useFetch from '../hooks/useFetch';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 const LIMIT = 20;
 
@@ -14,6 +15,8 @@ function Authors() {
       (page - 1) * LIMIT
     }`
   );
+
+  const { addToFavorite, favAuthors, removeFromFavorite } = useLocalStorage();
 
   if (loading || !data) {
     return <h1 className="text-center">loading</h1>;
@@ -26,7 +29,16 @@ function Authors() {
   return (
     <Row className="mt-3">
       {data?.results.map((author) => {
-        return <AuthorCard key={author._id} author={author} />;
+        const isFavoriteAuthor = !!favAuthors[author._id];
+
+        return (
+          <AuthorCard
+            key={author._id}
+            author={author}
+            isFavorite={isFavoriteAuthor}
+            handler={isFavoriteAuthor ? removeFromFavorite : addToFavorite}
+          />
+        );
       })}
 
       <Pagination
